@@ -25,7 +25,7 @@ plant_ids_raw = read_csv("MSI25_experiment_plantID_treatment_info.csv")
 plant_dat = plant_ids_raw %>%
    janitor::remove_empty(which="rows") %>%
    # drop plant IDs that didn't get used
-   anti_join(plant_ids_raw %>% filter(notes == "plant ID not used"))
+   filter(notes!="plant ID not used" | is.na(notes))
 
 
 #--
@@ -69,10 +69,10 @@ counts_raw = read_csv("MSI25_experiment_leaf_shoot_counts.csv")
 # Initial cleaning
 leaf_counts = counts_raw %>%
    janitor::remove_empty(which="rows") %>%
-   # drop plant IDs that didn't get used
-   anti_join(counts_raw %>% filter(notes == "plant ID not used")) %>%
    mutate(week = paste0("w", week),
-          date = mdy(date))
+          date = mdy(date)) %>%
+   # drop plant IDs that didn't get used
+   filter(notes!="plant ID not used" | is.na(notes))
 
 
 #--
@@ -183,11 +183,11 @@ np_mass = np_mass %>%
    mutate(burial_date = as_date("2025-08-29")) %>%
    relocate(treatment_nutrients, burial_date, pull_date, .after = table) %>%
    # calculations
-   mutate(days_buried = as.numeric(pull_date - burial_date),  # number of days that nutr packs were buried
-          mass_loss_g = starting_mass_g - final_mass_g,  # mass of nutrients lost during burial period
+   mutate(days_buried = as.numeric(pull_date - burial_date),       # number of days that nutr packs were buried
+          mass_loss_g = starting_mass_g - final_mass_g,            # mass of nutrients lost during burial period
           perc_mass_loss = (mass_loss_g / starting_mass_g) * 100,  # percent mass lost during burial period
-          mass_loss_rate = mass_loss_g / days_buried,  # rate of mass loss (g/day)
-          perc_mass_loss_rate = perc_mass_loss / days_buried)  # rate mass loss (%/day)
+          mass_loss_rate = mass_loss_g / days_buried,              # rate of mass loss (g/day)
+          perc_mass_loss_rate = perc_mass_loss / days_buried)      # rate mass loss (%/day)
 
 
 #--
