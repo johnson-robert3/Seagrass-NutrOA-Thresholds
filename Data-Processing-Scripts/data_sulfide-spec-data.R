@@ -145,12 +145,12 @@ sulf_wk9 %>% filter(str_detect(sample_id, "dup") | lead(str_detect(sample_id, "d
 sulf_wk9 = calc_vial_S(sulf_wk9, raw_sulf_wk9, std_dec25)
 
    # View samples that were maybe too high at 1:1, and were then maybe too low at 1:20 dilutions
-   sulf_wk9 %>% filter(flag %in% c("comp")) %>% mutate(scint_S_uM = vial_S_uM * dilution_pre) %>% View
+   sulf_wk9 %>% filter(flag %in% c("comp")) %>% mutate(scint_S_uM = vial_S_uM * dilution_pre) %>% print(n=Inf)
       # differences in calculated concentration were 17%, 28%, and 40% different depending on the dilution
       # need to rerun these 3 samples at a 1:5 pre_dilution (T1-H116-w9, T2-L159-w9, T4-H012-w9)
    
    ## probably want to rerun all wk9 samples that had an abs. below 0.10 at a dilution of 1:20; rerun at a dilution of 1:5
-   raw_sulf_wk9 %>% filter(dilution_pre == 20 & abs_667 < 0.10 & !(str_detect(sample_id, pattern="dup"))) %>% View
+   raw_sulf_wk9 %>% filter(dilution_pre == 20 & abs_667 < 0.10 & !(str_detect(sample_id, pattern="dup"))) %>% print(n=Inf)
       # but don't need to rerun the 3 samples where the original (at 1:1 dilution) was within the curve (notes for these 3 at 1:20 say "disregard...")
    # sample ID list
    wk9_reruns = raw_sulf_wk9 %>% 
