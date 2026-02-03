@@ -29,6 +29,22 @@ plant_dat = plant_ids_raw %>%
 
 
 #--
+# Seagrass Leaf and Shoot Counts
+#--
+
+# Raw data
+counts_raw = read_csv("MSI25_experiment_leaf_shoot_counts.csv")
+
+# Initial cleaning
+leaf_counts = counts_raw %>%
+   janitor::remove_empty(which="rows") %>%
+   mutate(week = paste0("w", week),
+          date = mdy(date)) %>%
+   # drop plant IDs that didn't get used
+   filter(notes!="plant ID not used" | is.na(notes))
+
+
+#--
 # Seagrass Leaf Morphometry
 #--
 
@@ -57,22 +73,6 @@ morphometry = morph %>%
                 select(-correction_cm))
 
 rm(morph, morph_wk5)
-
-
-#--
-# Seagrass Leaf and Shoot Counts
-#--
-
-# Raw data
-counts_raw = read_csv("MSI25_experiment_leaf_shoot_counts.csv")
-
-# Initial cleaning
-leaf_counts = counts_raw %>%
-   janitor::remove_empty(which="rows") %>%
-   mutate(week = paste0("w", week),
-          date = mdy(date)) %>%
-   # drop plant IDs that didn't get used
-   filter(notes!="plant ID not used" | is.na(notes))
 
 
 #--
