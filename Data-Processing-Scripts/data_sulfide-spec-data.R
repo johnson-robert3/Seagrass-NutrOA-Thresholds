@@ -165,38 +165,16 @@ sulf_wk9 = sulf_wk9 %>% anti_join(wk9_reruns)
 
 
 #--
-# Porewater Sulfide Concentration
+# Sulfide Concentration
 #--
 
-# Porewater sample data
-pw_sample_data = read.csv("MSI25_experiment_porewater_samples.csv") %>%
-   janitor::remove_empty(which = 'rows') %>%
-   filter(!(plant_id==""))  # all blank rows in CSV file are actually blank, and not NA, for some reason
-
-
 # Combine spec runs and calculate sulfide concentration (units = uM)
-pw_sulf = bind_rows(sulf_wk2, sulf_wk3, sulf_wk6, sulf_wk9) %>%
+sulfide = bind_rows(sulf_wk2, sulf_wk3, sulf_wk6, sulf_wk9) %>%
    # correct measured sulfide concentration for any dilution prior to adding diamine reagent (units = uM)
    mutate(scint_S_uM = vial_S_uM * dilution_pre) %>%
    # for samples below DL at dilution 1:2 (abs < 0.02), vial_S becomes 2.0, but should be 1.0uM, replace conc with half the DL (DL=2uM)
    mutate(scint_S_uM = replace(scint_S_uM, flag %in% c("DL"), 1))
 
-
-#- Sulfide concentration in original porewater
-pw_sulf = pw_sample_data %>%
-   mutate(week = paste0("w", week),
-          date = mdy(date),
-          # create sample_id column to match spec data for joining
-          sample_id = paste0("MSI25-", table, "-", plant_id, "-", week)) %>%
-   relocate(sample_id) %>%
-   right_join(pw_sulf %>% 
-                 select(sample_id, scint_S_uM, flag_spec = flag, notes_spec = notes)) %>%
-   # calculate porewater S concentration (units = uM)
-   mutate(
-      # total S in vial (concentration times total aqueous volume)
-      scint_S_umol = scint_S_uM * ((h2s_vol_ml + h2s_znac_vol_ml) / 1000),
-      # concentration of S in porewater
-      porewater_S_uM = scint_S_umol / (h2s_vol_ml / 1000))
 
 
 
