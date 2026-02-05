@@ -110,95 +110,12 @@ shoots_plant = shoots_all %>%
 
 
 
-
-#===
-# within the leaf and shoot counts dataset (leaf_counts df), the column for number of Thalassia blades (Tt_blades) is only the blade count for the original Tt shoot
-# when a second (or third) shoot was present, this is listed in the notes column, along with the number of blades on that new shoot
-# the Thalassia blade count (Tt_blades) is not a total count of leaves in the pot
-# there are not additional rows in the CSV dataset for second/third shoots (as is the case in the morphometry dataset)
-
-# view occasions when a second Tt shoot was recorded
-leaf_counts %>%
-   filter(str_detect(notes, "new Tt shoot")) %>% 
-   select(plant_id, week, notes) %>%
-   mutate(blades = parse_number(notes)) %>%
-   View
-# don't deal with this right now (can come back to later to accurately account for additional Tt shoots)
-# omitting additional shoots for now won't have much effect on treatment means; just use first/original shoot data
-
-
-## this works for getting/adding Tt shoot count variable
-## but this can't be used to calculate Tt BPS, because the blade count (Tt_blades) is only for the original shoot, 
-##  not the total number of blades like it is for Hw
-shoots %>%
-   mutate(tt_shoots = case_when(str_detect(count_notes, "two new Tt shoots") ~ 3,
-                                str_detect(count_notes, "Tt shoot") ~ 2,
-                                Tt_blades > 0 | is.na(Tt_blades) ~ 1,
-                                .default = 0)) %>%
-   View
-#===
-
-
-
 # treatment means of blades and shoots using the leaf_counts dataset (does not account for times with more than 1 Tt shoot)
 shoots_trt = shoots %>%
    # remove wks 3 and 8 (only dead/missing plants recorded these weeks; number of blades/shoots were not counted if plant was present)
    filter(!(week %in% c('w3', 'w8'))) %>%
    summarize(across(c(Tt_blades, Hw_blades, Hw_shoots), list(mean=~mean(., na.rm=TRUE), se=se), .names="{.fn}_{.col}"), n=n(),
              .by=c(treatment_ph, treatment_nutrients, week)) 
-
-
-
-
-#--------------
-
-# For treatment means, and viewing differences among treatments during the experiment, for Thalassia...
-
-# Should I use BPS calculated from the number of blade length measurements? 
-# (morph was not measured on all Tt plants at each time, so there are fewer data to work with using this approach)
-
-# Or should I use BPS from the 'leaf_counts' df (variable Tt_blades) which was directly measured? 
-# (number of blades was typically measured on all available Tt plants, so there are more data using this approach)
-# (but this approach does not account for BPS of second or third Tt shoots) (this info is in the Notes column, but not currently in the data)
-
-# Or should I use the leaf_counts df and add a Tt shoot count variable as above, and just use the measured BPS from this dataset,
-# even though it doesn't account for BPS on extra Tt shoots (so mean BPS estimates may be slightly inaccurate)
-# (but there really aren't that many instances with more than 1 Tt shoot)
-
-
-# I think we did leaf/shoot counts on all pots when we counted this (except maybe in 'off' weeks, like 3/5/8)
-# and I think morphometry was always on a more limited subset of pots 
-
-
-# view the number of plant IDs with morph measurements for Tt, to see how many plants I'd have for blade counts using the morph dataset
-morph_plant %>% filter(species=='Tt' & week %in% c('w2', 'w6', 'w9')) %>% summarize(n_distinct(plant_id), .by=week)
-
-# view the number of plant IDs for Tt for blade counts using the count dataset
-shoots %>% filter(Tt_blades > 0 & week %in% c('w2', 'w6', 'w9')) %>% summarize(n_distinct(plant_id), .by=week)
-
-
-
-# compare the different methods, how similar are the treatment means calculated each way? 
-
-x = morph_trt %>%
-   filter(species=="Tt") %>%
-   select(treatment_ph, treatment_nutrients, week, mean_BPS, n_morph = n)
-
-y = shoots_trt %>%
-   select(treatment_ph, treatment_nutrients, week, mean_Tt_blades, n_count = n)
-
-w = full_join(x, y)
-
-plot(w$mean_BPS, w$mean_Tt_blades, pch=16)
-# add a dashed 1:1 line to the plot
-abline(a=0, b=1, lty=2, col="red")
-# BPS is almost always higher from the morph df (means plants w/ low BPS are underrepresented)
-# should use Tt BPS from the leaf_counts dataset
-
-hist(w$mean_BPS)
-hist(w$mean_Tt_blades)
-hist(w$mean_BPS - w$mean_Tt_blades)
-
 
 
 
