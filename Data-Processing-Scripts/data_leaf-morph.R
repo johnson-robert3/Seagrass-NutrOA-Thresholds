@@ -57,15 +57,58 @@ morph_trt = morph_plant %>%
 
 # Number of shoots and number of blades in each pot over time for each species
 
-# create  a df similar to 'plants' from the 'data_plant-mortality' script, but omit plant IDs with identified issues
+# Create  a df similar to 'plants' from the 'data_plant-mortality' script, but omit plant IDs with identified issues
 
-# combine leaf/shoot count data with plant_ID data
-shoots = leaf_counts %>% rename(count_notes = notes) %>% left_join(plant_dat) %>%
+# Combine leaf/shoot count data with plant_ID data
+shoots_all = leaf_counts %>% rename(count_notes = notes) %>% left_join(plant_dat) %>%
    # 7 plant IDs were duplicated between 8/28 and 8/29
    # keep only the 8/29 data for these plants (Hw data is the same across both dates; Tt plants died on 8/29 for these 7 IDs)
    filter(!(date == "2025-08-28" & plant_id %in% c(leaf_counts %>% filter(date == "2025-08-29") %>% pull(plant_id)))) %>%
    # omit the plant IDs with issues identified in the 'data_plant-mortality' script
    filter(!(plant_id %in% c("A018", "L006", "L171", "L163", "H117")))
+
+
+# Add a variable for Thalassia shoot count (this accounts for times when a second (or third) Tt shoot was recorded in the notes column)
+shoots_all = shoots_all %>%
+   # number of Tt shoots within each pot
+   mutate(tt_shoots = case_when(str_detect(count_notes, "two new Tt shoots") ~ 3,
+                                str_detect(count_notes, "new Tt shoot") ~ 2,
+                                Tt_blades > 0 | is.na(Tt_blades) ~ 1,
+                                .default = 0)) %>%
+   # rename for consistency
+   rename(hw_shoots = Hw_shoots,                  # number of Hw shoots in each pot
+          hw_blades = Hw_blades,                  # total number of Hw blades in each pot
+          tt_blades_og_shoot = Tt_blades) %>%     # number of Tt blades for original shoot (num. for 2nd/3rd shoots listed in notes)
+   relocate(tt_shoots, .before=tt_blades_og_shoot)
+
+
+# Extract number of blades for extra shoots from the notes column
+shoots_all = shoots_all %>%
+   mutate(tt_blades_xtra_shoots = case_when(
+      plant_id=="H076" & str_detect(count_notes, "tiny new Tt shoot/leaf") ~ 1,
+      plant_id=="L121" & tt_shoots==3 ~ 7,
+      plant_id=="H071" & tt_shoots==3 ~ 6,
+      tt_shoots == 2 ~ parse_number(count_notes),
+      .default = 0))
+
+
+# Calculate total blades and blades-per-shoot for each species for each plant ID (pot) at each time point
+shoots_plant = shoots_all %>%
+   # total number of Tt blades in each pot
+   mutate(tt_blades = tt_blades_og_shoot + tt_blades_xtra_shoots) %>%
+   # calculate blades-per-shoot for each species (based on total number of blades and shoots counted in each pot)
+   mutate(tt_bps = case_when(tt_blades_og_shoot > 0 ~ tt_blades / tt_shoots,
+                             is.na(tt_blades_og_shoot) ~ NA_real_,
+                             .default = 0),
+          hw_bps = case_when(hw_blades > 0 ~ hw_blades / hw_shoots,
+                             is.na(hw_blades) ~ NA_real_,
+                             .default = 0)) %>%
+   # remove variables that are no longer needed
+   select(-tt_blades_og_shoot, -tt_blades_xtra_shoots) %>%
+   relocate(tt_blades, .after = tt_shoots) %>%
+   relocate(tt_bps, hw_bps, .after = hw_blades)
+
+
 
 
 #===
@@ -76,9 +119,9 @@ shoots = leaf_counts %>% rename(count_notes = notes) %>% left_join(plant_dat) %>
 
 # view occasions when a second Tt shoot was recorded
 leaf_counts %>%
-   filter(str_detect(notes, "Tt shoot")) %>% 
+   filter(str_detect(notes, "new Tt shoot")) %>% 
    select(plant_id, week, notes) %>%
-   # mutate(blades = parse_number(notes)) %>%
+   mutate(blades = parse_number(notes)) %>%
    View
 # don't deal with this right now (can come back to later to accurately account for additional Tt shoots)
 # omitting additional shoots for now won't have much effect on treatment means; just use first/original shoot data
