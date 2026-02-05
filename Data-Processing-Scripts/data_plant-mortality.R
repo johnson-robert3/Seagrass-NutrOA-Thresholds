@@ -1,6 +1,7 @@
 #~~~
 # Calculate and view seagrass plant mortality/survivorship at intervals throughout the experiment
 #
+# By: R. Johnson
 #~~~
 
 # combine leaf/shoot count data with plant_ID data
