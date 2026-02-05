@@ -8,18 +8,18 @@ Investigating seagrass threshold responses to co-occurring nutrient enrichment a
 #### Mortality/Survivorship
 
 Evaluate _Thalassia_ survivorship
-[x] At 2 wks (end of acclim. period)
-[x] At 6 wks (end of exp. period)
-[x] At 9 wks (end of recovery period)
-[x] Differences between treatments at 6 wks
-[x] Differences between treatments at 9 wks
+- [x] At 2 wks (end of acclim. period)
+- [x] At 6 wks (end of exp. period)
+- [x] At 9 wks (end of recovery period)
+- [x] Differences between treatments at 6 wks
+- [x] Differences between treatments at 9 wks
 
 Evaluate _Halodule_ survivorship
-[x] At 2 wks (end of acclim. period)
-[x] At 6 wks (end of exp. period)
-[x] At 9 wks (end of recovery period)
-[x] Differences between treatments at 6 wks
-[x] Differences between treatments at 9 wks
+- [x] At 2 wks (end of acclim. period)
+- [x] At 6 wks (end of exp. period)
+- [x] At 9 wks (end of recovery period)
+- [x] Differences between treatments at 6 wks
+- [x] Differences between treatments at 9 wks
 
 
 To evaluate survivorship (for each species individually): 
@@ -32,40 +32,51 @@ To evaluate survivorship (for each species individually):
 
 ### Morphometry
 
+For leaf length: only using plant IDs with living seagrass at the time point of interest (mortality not taken into account) (i.e., just using 'morphometry' df)
+
 Evaluate _Thalassia_
-[x] Calculate mean leaf length for each plant at each time point 
-[x] Calculate Thalassia total leaf area (one-sided leaf surface area) for each plant
-[x] Calculate treatment means (and SE) at each time point (blade length, blade width, blade area)
-[ ] Differences between treatments at 6 wks
-[ ] Differences between treatments at 9 wks
+- [x] Calculate mean leaf length for each plant at each time point 
+- [x] Calculate Thalassia total leaf area (one-sided leaf surface area) for each plant
+- [x] Calculate treatment means (and SE) at each time point (blade length, blade width, blade area)
+- [ ] Differences between treatments at 6 wks
+- [ ] Differences between treatments at 9 wks
 
 
 Evaluate _Halodule_ leaf length
-[x] Calculate mean leaf length for each plant at each time point 
-[x] Calculate Halodule leaf area (one-sided leaf surface area) for each plant (will need to combine with BPS counts)
-[x] Calculate treatment means (and SE) at each time point (blade length, blade width, blade area)
-[ ] Differences between treatments at 6 wks
-[ ] Differences between treatments at 9 wks
-
-
-For leaf length: only using plant IDs with living seagrass at the time point of interest (mortality not taken into account) (i.e., just using 'morphometry' df)
+- [x] Calculate mean leaf length for each plant at each time point 
+- [x] Calculate Halodule leaf area (one-sided leaf surface area) for each plant (will need to combine with BPS counts)
+- [x] Calculate treatment means (and SE) at each time point (blade length, blade width, blade area)
+- [ ] Differences between treatments at 6 wks
+- [ ] Differences between treatments at 9 wks
 
 
 ### Blade structure
 
-[ ] Thalassia blades-per-shoot
-[ ] Halodule number of shoots
-[ ] Halodule total number of blades
-[ ] Calculate treatment means (and SE) at each time point for both Tt and Hw
-[ ] Differences between treatments at 6 wks for both Tt and Hw
-[ ] Differences between treatments at 9 wks for both Tt and Hw
+Number of shoots, and blades-per-shoot, come from the 'leaf and shoot counts' dataset (counted on more plants than from the morph dataset)
+
+- [x] Thalassia number of shoots
+- [x] Thalassia total number of blades
+- [x] Thalassia blades-per-shoot
+- [x] Halodule blades-per-shoot
+- [ ] Calculate treatment means (and SE) at each time point for both Tt and Hw
+- [ ] Differences between treatments at 6 wks for both Tt and Hw
+- [ ] Differences between treatments at 9 wks for both Tt and Hw
 
 
 ### Epiphytes
 
-[ ] Thalassia epiphyte load (relate epiphyte mass to a structural parameter (e.g., leaf length, blade area, or shoot biomass))
-[ ] Halodule epiphyte load (relate epiphyte mass to a structural parameter (e.g., leaf length, blade area, or shoot biomass))
-[ ] Calculate treatment means (and SE) at each time point for both Tt and Hw
-[ ] Differences between treatments at 6 wks for both Tt and Hw
-[ ] Differences between treatments at 9 wks for both Tt and Hw
+- [ ] Thalassia epiphyte load (relate epiphyte mass to a structural parameter (e.g., leaf length, blade area, or shoot biomass))
+- [ ] Halodule epiphyte load (relate epiphyte mass to a structural parameter (e.g., leaf length, blade area, or shoot biomass))
+- [ ] Calculate treatment means (and SE) at each time point for both Tt and Hw
+- [ ] Differences between treatments at 6 wks for both Tt and Hw
+- [ ] Differences between treatments at 9 wks for both Tt and Hw
+
+
+### Shoot Biomass (from genetic samples)
+
+- [ ] Thalassia shoot biomass
+- [ ] Halodule shoot biomass
+- [ ] Calculate treatment means (and SE) at each time point for both Tt and Hw
+
+
 
