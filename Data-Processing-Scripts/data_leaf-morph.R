@@ -109,12 +109,11 @@ shoots_plant = shoots_all %>%
    relocate(tt_bps, hw_bps, .after = hw_blades)
 
 
-
-# treatment means of blades and shoots using the leaf_counts dataset (does not account for times with more than 1 Tt shoot)
-shoots_trt = shoots %>%
+# Calculate mean and SE for each treatment over time
+shoots_trt = shoots_plant %>%
    # remove wks 3 and 8 (only dead/missing plants recorded these weeks; number of blades/shoots were not counted if plant was present)
    filter(!(week %in% c('w3', 'w8'))) %>%
-   summarize(across(c(Tt_blades, Hw_blades, Hw_shoots), list(mean=~mean(., na.rm=TRUE), se=se), .names="{.fn}_{.col}"), n=n(),
+   summarize(across(starts_with("tt_") | starts_with("hw_"), list(mean=~mean(., na.rm=TRUE), se=se), .names="{.fn}_{.col}"), n=n(),
              .by=c(treatment_ph, treatment_nutrients, week)) 
 
 
