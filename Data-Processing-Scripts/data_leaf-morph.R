@@ -118,5 +118,33 @@ shoots_trt = shoots_plant %>%
 
 
 
+#--
+# Shoot Biomass
+#--
+
+# Shoot biomass from samples harvested for leaf genetic analysis
+
+# Dry shoot mass for individual samples
+biomass_plant = shoot_biomass %>%
+   # shoot dry mass (units = g)
+   mutate(shoot_biomass = sample_bag_mass_g - teabag_mass_g) %>%
+   # correct the time when Hw mass was negative (probably a very small blade sample) (just change to the smallest mass)
+   mutate(shoot_biomass = replace(shoot_biomass, shoot_biomass < 0, 0.001)) %>%
+   # remove variables not needed
+   select(-sample_bag_mass_g, -teabag_mass_g, -notes) %>%
+   # change units to mg
+   mutate(shoot_biomass = shoot_biomass * 1000)
+
+
+# Calculate mean and SE for each treatment over time
+biomass_trt = biomass_plant %>%
+   # add treatment
+   left_join(plant_dat %>% select(plant_id, treatment_ph, site)) %>%
+   # treatment mean and SE
+   summarize(mean_shoot_biomass = mean(shoot_biomass, na.rm=TRUE),
+             se_shoot_biomass = se(shoot_biomass),
+             n = n(),
+             .by = c(species, treatment_ph, treatment_nutrients, week))
+
 
 
