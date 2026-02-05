@@ -1,6 +1,7 @@
 #~~~
 # Calculate and view shoot morphology (number of blades and shoots) and morphometry throughout the experiment
 #
+# By: R. Johnson
 #~~~
 
 
@@ -29,7 +30,7 @@ morph_plant = morph_allblades %>%
    summarize(blade_length = mean(length_cm, na.rm=TRUE),     # mean blade length for each shoot
              blade_width = mean(width_cm, na.rm=TRUE),       # mean blade width for each shoot
              blade_area = mean(blade_area_cm, na.rm=TRUE),   # mean blade area for each shoot
-             BPS = n(),                                      # number of blades per shoot (counted from number of blade length measurements)
+             BPS = n(),                                      # number of blades per shoot (based on number of blade length measurements)
              tot_leaf_area = sum(blade_area_cm, na.rm=TRUE), # total leaf surface area for each shoot (summing blade area for all blades on the shoot)
              .by = c(plant_id, week, species, shoot_num)) %>%
    # values for each pot: means or totals (across multiple Tt shoots)
@@ -84,7 +85,8 @@ leaf_counts %>%
 
 
 ## this works for getting/adding Tt shoot count variable
-## but this can't be used to calculate Tt BPS, because the blade count (Tt_blades) is only for the original shoot, not the total number of blades like it is for Hw
+## but this can't be used to calculate Tt BPS, because the blade count (Tt_blades) is only for the original shoot, 
+##  not the total number of blades like it is for Hw
 shoots %>%
    mutate(tt_shoots = case_when(str_detect(count_notes, "two new Tt shoots") ~ 3,
                                 str_detect(count_notes, "Tt shoot") ~ 2,
@@ -114,7 +116,7 @@ shoots_trt = shoots %>%
 
 # Or should I use BPS from the 'leaf_counts' df (variable Tt_blades) which was directly measured? 
 # (number of blades was typically measured on all available Tt plants, so there are more data using this approach)
-# (but this approach does not account for BPS of second or third Tt shoots) (this info is in the Notes column, but not the data currently)
+# (but this approach does not account for BPS of second or third Tt shoots) (this info is in the Notes column, but not currently in the data)
 
 # Or should I use the leaf_counts df and add a Tt shoot count variable as above, and just use the measured BPS from this dataset,
 # even though it doesn't account for BPS on extra Tt shoots (so mean BPS estimates may be slightly inaccurate)
@@ -126,15 +128,10 @@ shoots_trt = shoots %>%
 
 
 # view the number of plant IDs with morph measurements for Tt, to see how many plants I'd have for blade counts using the morph dataset
-morph_plant %>% filter(week=="w2" & species=='Tt') %>% pull(plant_id) %>% unique %>% length  # 125
-morph_plant %>% filter(week=="w6" & species=='Tt') %>% pull(plant_id) %>% unique %>% length  # 101
-morph_plant %>% filter(week=="w9" & species=='Tt') %>% pull(plant_id) %>% unique %>% length  # 100
-
+morph_plant %>% filter(species=='Tt' & week %in% c('w2', 'w6', 'w9')) %>% summarize(n_distinct(plant_id), .by=week)
 
 # view the number of plant IDs for Tt for blade counts using the count dataset
-shoots %>% filter(week=="w2" & Tt_blades > 0) %>% pull(plant_id) %>% unique %>% length  # 203
-shoots %>% filter(week=="w6" & Tt_blades > 0) %>% pull(plant_id) %>% unique %>% length  # 171
-shoots %>% filter(week=="w9" & Tt_blades > 0) %>% pull(plant_id) %>% unique %>% length  # 127
+shoots %>% filter(Tt_blades > 0 & week %in% c('w2', 'w6', 'w9')) %>% summarize(n_distinct(plant_id), .by=week)
 
 
 
@@ -149,8 +146,18 @@ y = shoots_trt %>%
 
 w = full_join(x, y)
 
-plot(w$mean_BPS, w$mean_Tt_blades)  # BPS is almost always higher from the morph df (means plants w/ low BPS are underrepresented)
+plot(w$mean_BPS, w$mean_Tt_blades, pch=16)
+# add a dashed 1:1 line to the plot
+abline(a=0, b=1, lty=2, col="red")
+# BPS is almost always higher from the morph df (means plants w/ low BPS are underrepresented)
 # should use Tt BPS from the leaf_counts dataset
+
+hist(w$mean_BPS)
+hist(w$mean_Tt_blades)
+hist(w$mean_BPS - w$mean_Tt_blades)
+
+
+
 
 
 
