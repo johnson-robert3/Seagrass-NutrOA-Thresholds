@@ -125,7 +125,7 @@ epiphytes = epiphytes_raw %>%
 porewater_raw = read_csv("MSI25_experiment_porewater_samples.csv")
 
 # Initial cleaning
-porewater_dat = porewater_raw %>%
+porewater = porewater_raw %>%
    janitor::remove_empty(which="rows") %>%
    mutate(week = paste0("w", week),
           date = mdy(date))
