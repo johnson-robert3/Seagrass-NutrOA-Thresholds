@@ -46,9 +46,11 @@ calc_vial_S = function(.processed, .raw, .std_curve) {
          abs_blk_corr = abs_667 - (.raw %>% filter(sample_id=="Blank") %>% pull(abs_667) %>% mean),
          # for post-color dilution
          abs_corr = abs_blk_corr * dilution_post) %>%
-      # remove samples that were too low or too high and need to be re-run 
+      # remove samples with data flags indicating issues 
       filter(!(flag %in% c("L",  # sample absorbance too low, need to rerun w/ lower pre-color dilution
-                           "H")  # sample absorbance too high, need to rerun w/ higher pre-color dilution
+                           "H",  # sample absorbance too high, need to rerun w/ higher pre-color dilution
+                           # "F",  # flocculent material in vial, sample not run
+                           "M")  # misc. issue, see Notes column for sample
                )) %>%
       # remove sample dupes
       filter(!(str_detect(sample_id, pattern="dup"))) %>%
