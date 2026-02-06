@@ -3,9 +3,9 @@
 Investigating seagrass threshold responses to co-occurring nutrient enrichment and ocean acidification
 
 
-### For TAC meeting
+## For TAC meeting
 
-#### Mortality/Survivorship
+### Mortality/Survivorship
 
 Evaluate _Thalassia_ survivorship
 - [x] At 2 wks (end of acclim. period)
@@ -58,7 +58,7 @@ Number of shoots, and blades-per-shoot, come from the 'leaf and shoot counts' da
 - [x] Thalassia total number of blades
 - [x] Thalassia blades-per-shoot
 - [x] Halodule blades-per-shoot
-- [ ] Calculate treatment means (and SE) at each time point for both Tt and Hw
+- [x] Calculate treatment means (and SE) at each time point for both Tt and Hw
 - [ ] Differences between treatments at 6 wks for both Tt and Hw
 - [ ] Differences between treatments at 9 wks for both Tt and Hw
 
@@ -74,9 +74,14 @@ Number of shoots, and blades-per-shoot, come from the 'leaf and shoot counts' da
 
 ### Shoot Biomass (from genetic samples)
 
-- [ ] Thalassia shoot biomass
-- [ ] Halodule shoot biomass
-- [ ] Calculate treatment means (and SE) at each time point for both Tt and Hw
+- [x] Thalassia shoot biomass
+- [x] Halodule shoot biomass
+- [x] Calculate treatment means (and SE) at each time point for both Tt and Hw
 
+
+### Porewater
+
+- [ ] Calculate H2S concentration from sulfide and pH values
+- [ ] Calculate treatment means (and SE) at each time point for sulfide, H2S, and pH
 
 
