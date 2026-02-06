@@ -42,7 +42,7 @@ Evaluate _Thalassia_
 - [ ] Differences between treatments at 9 wks
 
 
-Evaluate _Halodule_ leaf length
+Evaluate _Halodule_ 
 - [x] Calculate mean leaf length for each plant at each time point 
 - [x] Calculate Halodule leaf area (one-sided leaf surface area) for each plant (will need to combine with BPS counts)
 - [x] Calculate treatment means (and SE) at each time point (blade length, blade width, blade area)
@@ -82,6 +82,35 @@ Number of shoots, and blades-per-shoot, come from the 'leaf and shoot counts' da
 ### Porewater
 
 - [ ] Calculate H2S concentration from sulfide and pH values
-- [ ] Calculate treatment means (and SE) at each time point for sulfide, H2S, and pH
+- [x] Calculate treatment means (and SE) at each time point for sulfide, H2S, and pH
 
+
+### Exploratory Figures
+
+- [ ] Survivorship curves for both species
+   - [ ] Over time, w/ lines for each treatment
+   - [ ] Comparing treatments, w/ lines for wk 6 and wk 9
+- [ ] Morphometry (blade length) over time for both species
+   - [ ] Can get some wk 0 data/info from the 'meadow' datasets (leaf morph, leaf biomass)
+- [ ] Shoot structure (total number of leaves) over time for both species
+- [x] Morphometry between treatments at experiment end (wk 9) for both species
+   - [x] Blade length
+   - [x] Blade area
+   - [x] Total leaf surface area
+- [ ] Blade structure over time for both species
+- [x] Blade structure between treatments at experiment end (wk 9) for both species
+   - [x] Number of shoots
+   - [x] Number of blades
+   - [x] Blades-per-shoot
+- [x] Shoot biomass between treatments at experiment end (wk 9) for both species
+- [ ] Epiphyte load at wk 9 for both species
+- [ ] pH
+   - [ ] pH time-series in tables
+   - [x] Comparing porewater pH between treatments at wks 2, 6, and 9
+- [ ] Porewater sulfide
+   - [ ] Sulfide over time, w/ lines for each treatment
+   - [x] Comparing total sulfide between treatments at wks 2, 6, and 9
+
+
+(Maybe box-and-whisker plots, with jittered points, rather than mean+SE for figures?)
 
