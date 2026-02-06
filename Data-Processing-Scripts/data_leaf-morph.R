@@ -38,13 +38,14 @@ morph_plant = morph_allblades %>%
              num_blades = sum(BPS),              # total number of blades in the pot (only applicable to Tt)
              across(c(blade_length, blade_width, blade_area, BPS), ~mean(.)),   # mean of blade measurements and mean blades-per-shoot in the pot
              tot_leaf_area = sum(tot_leaf_area), # total leaf surface area (one-sided) in the pot
-             .by = c(plant_id, week, species))
+             .by = c(plant_id, week, species)) %>%
+   # add treatment and plant info
+   left_join(plant_dat %>% select(plant_id, treatment_ph, treatment_nutrients, site))
+
 
 
 # Calculate mean and SE for each treatment over time
 morph_trt = morph_plant %>%
-   # add treatment information
-   left_join(plant_dat %>% select(plant_id, treatment_ph, treatment_nutrients)) %>%
    # mean/SE by treatment
    summarize(across(c(num_shoots:tot_leaf_area), list(mean=mean, se=se), .names = "{.fn}_{.col}"), n=n(),
              .by=c(species, treatment_ph, treatment_nutrients, week))
@@ -127,22 +128,20 @@ shoots_trt = shoots_plant %>%
 # Dry shoot mass for individual samples
 biomass_plant = shoot_biomass %>%
    # shoot dry mass (units = g)
-   mutate(shoot_biomass = sample_bag_mass_g - teabag_mass_g) %>%
+   mutate(shoot_biomass_g = sample_bag_mass_g - teabag_mass_g) %>%
    # correct the time when Hw mass was negative (probably a very small blade sample) (just change to the smallest mass)
-   mutate(shoot_biomass = replace(shoot_biomass, shoot_biomass < 0, 0.001)) %>%
+   mutate(shoot_biomass_g = replace(shoot_biomass_g, shoot_biomass_g < 0, 0.001)) %>%
    # remove variables not needed
    select(-sample_bag_mass_g, -teabag_mass_g, -notes) %>%
-   # change units to mg
-   mutate(shoot_biomass = shoot_biomass * 1000)
+   # add treatment and plant info
+   left_join(plant_dat %>% select(plant_id, treatment_ph, treatment_nutrients, site))
 
 
 # Calculate mean and SE for each treatment over time
 biomass_trt = biomass_plant %>%
-   # add treatment
-   left_join(plant_dat %>% select(plant_id, treatment_ph, site)) %>%
    # treatment mean and SE
-   summarize(mean_shoot_biomass = mean(shoot_biomass, na.rm=TRUE),
-             se_shoot_biomass = se(shoot_biomass),
+   summarize(mean_shoot_biomass = mean(shoot_biomass_g, na.rm=TRUE),
+             se_shoot_biomass = se(shoot_biomass_g),
              n = n(),
              .by = c(species, treatment_ph, treatment_nutrients, week))
 
