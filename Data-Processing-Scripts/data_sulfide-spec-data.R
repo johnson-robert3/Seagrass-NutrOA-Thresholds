@@ -39,6 +39,13 @@ rm_zbsc = function(.dat) {
 # Function to process datasheet and calculate sulfide concentration in microcentrifuge vial
 calc_vial_S = function(.processed, .raw, .std_curve) {
    
+   data_flags = c(
+      'L',  # sample absorbance too low, need to rerun w/ lower pre-color dilution 
+      'H',  # sample absorbance too high, need to rerun w/ higher pre-color dilution
+      # 'F',  # flocculent material in vial, sample not run
+      'M'   # misc. issue, see Notes column for sample
+   )
+   
    .processed %>%
       # correct absorbance
       mutate(
@@ -47,11 +54,7 @@ calc_vial_S = function(.processed, .raw, .std_curve) {
          # for post-color dilution
          abs_corr = abs_blk_corr * dilution_post) %>%
       # remove samples with data flags indicating issues 
-      filter(!(flag %in% c("L",  # sample absorbance too low, need to rerun w/ lower pre-color dilution
-                           "H",  # sample absorbance too high, need to rerun w/ higher pre-color dilution
-                           # "F",  # flocculent material in vial, sample not run
-                           "M")  # misc. issue, see Notes column for sample
-               )) %>%
+      filter(!(flag %in% data_flags)) %>%
       # remove sample dupes
       filter(!(str_detect(sample_id, pattern="dup"))) %>%
       # sulfide concentration in microcentrifuge vial that diamine reagent was added to (units = uM)
