@@ -127,7 +127,9 @@ sulf_wk6 = rm_zbsc(raw_sulf_wk6)
 sulf_wk6 %>% filter(str_detect(sample_id, "dup") | lead(str_detect(sample_id, "dup")))
 
 # Sulfide concentration in vials (units = uM)
-sulf_wk6 = calc_vial_S(sulf_wk6, raw_sulf_wk6, std_dec25)
+sulf_wk6 = calc_vial_S(sulf_wk6, raw_sulf_wk6, std_dec25) %>%
+   # remove the sample that was rerun (T1-H165; estimated based on color formation), but original was within the curve
+   filter(!str_detect(notes, "disregard") | is.na(notes))
 
 
 #- Run 4: Week 9 samples -#
