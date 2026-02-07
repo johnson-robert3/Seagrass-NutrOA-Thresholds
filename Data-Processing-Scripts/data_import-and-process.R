@@ -9,9 +9,13 @@
 # directory
 setwd("C:/Users/rajohnson6/Box/Projects/Mote Seagrass Thresholds/Mote Data")
 
+# load libraries
 library(tidyverse)
 library(lubridate)
 
+
+# Standard Error function for use in other scripts
+se = function(x) { sd(x, na.rm=TRUE) / sqrt(length(na.omit(x))) }
 
 
 #--

@@ -5,8 +5,6 @@
 #~~~
 
 
-se = function(x) { sd(x, na.rm=TRUE) / sqrt(length(na.omit(x))) }
-
 
 #--
 # Blade Morphometry
@@ -47,7 +45,8 @@ morph_plant = morph_allblades %>%
 # Calculate mean and SE for each treatment over time
 morph_trt = morph_plant %>%
    # mean/SE by treatment
-   summarize(across(c(num_shoots:tot_leaf_area), list(mean=mean, se=se), .names = "{.fn}_{.col}"), n=n(),
+   summarize(across(c(num_shoots:tot_leaf_area), list(mean=mean, se=se), .names = "{.fn}_{.col}"), 
+             n=n(),
              .by=c(species, treatment_ph, treatment_nutrients, week))
 
 
@@ -114,7 +113,8 @@ shoots_plant = shoots_all %>%
 shoots_trt = shoots_plant %>%
    # remove wks 3 and 8 (only dead/missing plants recorded these weeks; number of blades/shoots were not counted if plant was present)
    filter(!(week %in% c('w3', 'w8'))) %>%
-   summarize(across(starts_with("tt_") | starts_with("hw_"), list(mean=~mean(., na.rm=TRUE), se=se), .names="{.fn}_{.col}"), n=n(),
+   summarize(across(starts_with("tt_") | starts_with("hw_"), list(mean=~mean(., na.rm=TRUE), se=se), .names="{.fn}_{.col}"), 
+             n=n(),
              .by=c(treatment_ph, treatment_nutrients, week)) 
 
 
