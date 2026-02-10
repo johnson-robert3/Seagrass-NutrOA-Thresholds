@@ -116,6 +116,10 @@ shoots_trt = shoots_plant %>%
    summarize(across(starts_with("tt_") | starts_with("hw_"), list(mean=~mean(., na.rm=TRUE), se=se), .names="{.fn}_{.col}"), 
              n=n(),
              .by=c(treatment_ph, treatment_nutrients, week)) 
+# Update 2/8/26
+#  this isn't correct (at least not for number of blades, I haven't thought about the rest yet)
+#  only want to calculate the mean number of blades for shoots that were living and still had blades, but this is currently
+#  including all data, so dead plants with 0 blades are still part of the mean values
 
 
 
