@@ -180,3 +180,15 @@ tt_mort = tt_surv %>%
           survive_w9_perc = alive_w9 / w2_for_w9 * 100)  # percent that survived to the end (relative to those living at wk 2, not included those harvested at wk 6)
 
 
+
+
+#-- View the number of living plants at each time point for each species --#
+
+# Halodule
+hw_surv %>% filter(week=="w2") %>% summarize(across(starts_with("alive"), sum))  # wk 9 sum is inaccurate, b/c includes harvest at wk 6
+
+# Thalassia
+tt_surv %>% filter(week=="w2") %>% summarize(across(starts_with("alive"), sum))  # wk 9 sum is inaccurate, b/c includes harvest at wk 6
+
+
+
