@@ -65,8 +65,8 @@ Number of shoots, and blades-per-shoot, come from the 'leaf and shoot counts' da
 
 ### Epiphytes
 
-- [ ] Thalassia epiphyte load (relate epiphyte mass to a structural parameter (e.g., leaf length, blade area, or shoot biomass))
-- [ ] Halodule epiphyte load (relate epiphyte mass to a structural parameter (e.g., leaf length, blade area, or shoot biomass))
+- [x] Thalassia epiphyte load (relate epiphyte mass to a structural parameter (e.g., leaf length, blade area, or shoot biomass))
+- [x] Halodule epiphyte load (relate epiphyte mass to a structural parameter (e.g., leaf length, blade area, or shoot biomass))
 - [ ] Calculate treatment means (and SE) at each time point for both Tt and Hw
 - [ ] Differences between treatments at 6 wks for both Tt and Hw
 - [ ] Differences between treatments at 9 wks for both Tt and Hw
@@ -89,7 +89,7 @@ Number of shoots, and blades-per-shoot, come from the 'leaf and shoot counts' da
 
 - [ ] Survivorship curves for both species
    - [ ] Over time, w/ lines for each treatment
-   - [ ] Comparing treatments, w/ lines for wk 6 and wk 9
+   - [x] Comparing treatments, w/ lines for wk 6 and wk 9
 - [ ] Morphometry (blade length) over time for both species
    - [ ] Can get some wk 0 data/info from the 'meadow' datasets (leaf morph, leaf biomass)
 - [ ] Shoot structure (total number of leaves) over time for both species
@@ -103,7 +103,7 @@ Number of shoots, and blades-per-shoot, come from the 'leaf and shoot counts' da
    - [x] Number of blades
    - [x] Blades-per-shoot
 - [x] Shoot biomass between treatments at experiment end (wk 9) for both species
-- [ ] Epiphyte load at wk 9 for both species
+- [x] Epiphyte load at wk 9 for both species
 - [ ] pH
    - [ ] pH time-series in tables
    - [x] Comparing porewater pH between treatments at wks 2, 6, and 9
