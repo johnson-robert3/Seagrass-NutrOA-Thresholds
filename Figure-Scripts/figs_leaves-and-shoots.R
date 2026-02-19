@@ -357,6 +357,14 @@ ggplot(biomass_plant %>% filter(week=="w9" & species=="Hw" & treatment_nutrients
           summarize(mean = mean(shoot_biomass_g, na.rm=TRUE),
                     se = se(shoot_biomass_g),
                     .by = c(treatment_ph, treatment_nutrients))) +
+   # faint data points in background
+   geom_point(data = biomass_plant %>% filter(week=="w9" & species=="Hw" & treatment_nutrients!="pulsed") %>%
+                 mutate(treatment_nutrients = parse_number(treatment_nutrients) %>% as.factor(),
+                        shoot_biomass_g = shoot_biomass_g * 1000),
+              aes(x = treatment_nutrients, y = shoot_biomass_g, color = treatment_ph), 
+              # size=1.5, shape=16, alpha=0.4, position = position_dodge(width=0.3)) +
+              size=2, shape=19, alpha=0.2, position = position_jitterdodge(dodge.width=0.3, jitter.width=0.2)) +
+   #
    geom_line(aes(x = treatment_nutrients, y = mean, color = treatment_ph, group = treatment_ph), 
              position = position_dodge(width=0.3), linewidth=0.75, alpha=0.4) +
    geom_errorbar(aes(x = treatment_nutrients, y = mean, ymin = mean - se, ymax = mean + se, color = treatment_ph), 
